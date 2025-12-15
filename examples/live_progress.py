@@ -22,7 +22,7 @@ job1 = job_progress.add_task("[green]Cooking")
 job2 = job_progress.add_task("[magenta]Baking", total=200)
 job3 = job_progress.add_task("[cyan]Mixing", total=400)
 
-total = sum(task.total for task in job_progress.tasks)
+total = sum(task.total or 0 for task in job_progress.tasks)
 overall_progress = Progress()
 overall_task = overall_progress.add_task("All Jobs", total=int(total))
 
@@ -41,5 +41,5 @@ with Live(progress_table, refresh_per_second=10):
             if not job.finished:
                 job_progress.advance(job.id)
 
-        completed = sum(task.completed for task in job_progress.tasks)
+        completed = sum(task.completed or 0 for task in job_progress.tasks)
         overall_progress.update(overall_task, completed=completed)
